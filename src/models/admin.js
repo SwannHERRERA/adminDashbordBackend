@@ -55,7 +55,7 @@ adminSchema.methods.generateAuthToken = async function() {
 
 adminSchema.statics.findByCredentials = async (email, password) => {
   // Search for a admin by email and password.
-  const admin = await admin.findOne({ email });
+  const admin = await Admin.findOne({ email });
   if (!admin) {
     throw new Error({ error: "Invalid login credentials" });
   }

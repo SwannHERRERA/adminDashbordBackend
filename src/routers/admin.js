@@ -11,7 +11,6 @@ router.post("/admins", async (req, res) => {
     const admin = new Admin(req.body);
     await admin.save();
     const token = await admin.generateAuthToken();
-    console.log(token);
     res.status(201).send({ admin, token });
   } catch (error) {
     res.status(400).send(error);
@@ -25,11 +24,13 @@ router.post("/admins/login", async (req, res) => {
     const { email, password } = req.body;
     const admin = await Admin.findByCredentials(email, password);
     if (!admin) {
+      console.log("admin");
       return res
         .status(401)
         .send({ error: "Login failed! Check authentication credentials" });
     }
-    const token = await Admin.generateAuthToken();
+    const token = await admin.generateAuthToken();
+    console.log({ admin, token });
     res.send({ admin, token });
   } catch (error) {
     res.status(400).send(error);
