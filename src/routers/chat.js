@@ -1,5 +1,5 @@
-const express = require("express");
-const Chat = require("../models/chat");
-const auth = require("../middleware/auth");
+const express = require('express')
 
-const router = express.Router();
+const router = express.Router()
+
+module.exports = router
