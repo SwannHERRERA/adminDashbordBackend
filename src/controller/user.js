@@ -18,22 +18,13 @@ exports.addUser = (req, res, next) => {
 }
 
 exports.getEditUser = (req, res, next) => {
-  const editMode = req.query.edit
-  if (!editMode) {
-    return res.redirect('/')
-  }
-  const userId = req.params.userId
+  const userId = req.query.userId
   User.findById(userId)
     .then((user) => {
       if (!user) {
-        return res.redirect('/')
+        throw new Error('No user')
       }
-      res.render('user/edit', {
-        pageTitle: 'Edit User',
-        path: '/user/edit',
-        editing: editMode,
-        user: user
-      })
+      return user
     })
     .catch((err) => console.log(err))
 }
@@ -50,10 +41,10 @@ exports.postEditUser = (req, res, next) => {
       if (user.userId.toString() !== req.user._id.toString()) {
         return res.redirect('/')
       }
-      user.firstName = updatedTitle
-      user.lastName = updatedPrice
-      user.email = updatedDesc
-      user.role = updatedImageUrl
+      user.firstName = firstName
+      user.lastName = lastName
+      user.email = email
+      user.role = role
       return user.save().then((result) => {
         console.log('UPDATED USER!')
         res.redirect('/user/list')
